@@ -2,18 +2,36 @@ import sys
 
 
 def main():
-    
-    # Wait for user input 
+
     while(True):
         sys.stdout.write("$ ")
         sys.stdout.flush()
 
+        # Get user's input/command
         userInput = input()
+        userCommand = userInput.split()
 
-        if(userInput == "exit 0"):
-            break
+        validCommands = ["exit","echo"]
 
-        print(f'{userInput}: command not found')
+        # Check if command is valid
+        if(userCommand[0].lower() in validCommands):
+    
+            # Handle exit
+            if(userCommand[0] == "exit" and len(userCommand) == 2):
+                if(userCommand[1] == "0"):
+                    break
+                else:
+                    print(f'{" ".join(userCommand)}: command not found')
+                    continue
+
+            # Handle echo
+            if(userCommand[0] == "echo" and len(userCommand) > 1):
+                print(" ".join(userCommand[1:]))
+                continue
+
+            print(f'{" ".join(userCommand)}: command not found')
+        else:
+            print(f'{userCommand[0]}: command not found')
 
        
 
