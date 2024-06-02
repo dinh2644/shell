@@ -2,19 +2,15 @@ import sys
 
 
 def main():
-    # You can use print statements as follows for debugging, they'll be visible when running tests.
-    #print("Logs from your program will appear here!")
+    
+    # Wait for user input 
+    while(True):
+        sys.stdout.write("$ ")
+        sys.stdout.flush()
 
-    # Uncomment this block to pass the first stage
-    sys.stdout.write("$ ")
-    sys.stdout.flush()
-
-    # Wait for user input
-    userInput = input()
-
-    if(True):
+        userInput = input()
         print(f'{userInput}: command not found')
-
+       
 
 
 if __name__ == "__main__":
