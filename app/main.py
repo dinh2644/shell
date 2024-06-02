@@ -9,7 +9,12 @@ def main():
         sys.stdout.flush()
 
         userInput = input()
+
+        if(userInput == "exit 0"):
+            break
+
         print(f'{userInput}: command not found')
+
        
 
 
