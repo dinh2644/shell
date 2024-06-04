@@ -1,11 +1,13 @@
 import sys
 import os
+import subprocess as sp
+
 #import pdb; pdb.set_trace()
 
 def main():
 
     PATH = os.environ["PATH"]
-    
+     
     
     while(True):
         sys.stdout.write("$ ")
@@ -15,50 +17,61 @@ def main():
         userInput = input()
         userCommand = userInput.split()
 
-        validCommands = ["exit","echo","type"]
-
-        # Check if command is valid
-        if(userCommand[0].lower() in validCommands):
-
-            # Handle exit
-            if(userCommand[0] == "exit" and len(userCommand) == 2):
-                if(userCommand[1] == "0"):
-                    break
-                else:
-                    sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
-                    continue
-
-            # Handle echo
-            if(userCommand[0] == "echo" and len(userCommand) > 1):
-                sys.stdout.write(f'{" ".join(userCommand[1:])}\n')
+        # Handle exit
+        if(userCommand[0] == "exit" and len(userCommand) == 2):
+            if(userCommand[1] == "0"):
+                break
+            else:
+                sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
                 continue
 
-            # Handle type
-            if(userCommand[0] == "type" and len(userCommand) == 2):
-                paths = PATH.split(":")
-                whichPath = None
-                # Loop through PATH to find path of command
-                for path in paths:
-                    if os.path.isfile(f'{path}/{userCommand[1]}'):
-                        whichPath = f'{path}/{userCommand[1]}'
-                        break
+        # Handle echo
+        if(userCommand[0] == "echo" and len(userCommand) > 1):
+            sys.stdout.write(f'{" ".join(userCommand[1:])}\n')
+            continue
 
-                if(userCommand[1] in validCommands):
-                    sys.stdout.write(f'{userCommand[1]} is a shell builtin\n')
-                    continue
-                elif(whichPath):
-                    sys.stdout.write(f'{userCommand[1]} is {whichPath}\n')
-                    continue
-                else:
-                    sys.stdout.write(f'{userCommand[1]}: not found\n')
-                    continue
+        # Handle type
+        if(userCommand[0] == "type" and len(userCommand) == 2):
+            
+            paths = PATH.split(":")
 
-            sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
+            whichPath = None
+
+            # loop through PATH to find path of command
+            for path in paths:
+                if os.path.isfile(f'{path}/{userCommand[1]}'):
+                    whichPath = f'{path}/{userCommand[1]}'
+                    break
+
+            validCommands = ["exit","echo","type"]
+
+            if(userCommand[1] in validCommands):
+                sys.stdout.write(f'{userCommand[1]} is a shell builtin\n')
+                continue
+            elif(whichPath):
+                sys.stdout.write(f'{userCommand[1]} is {whichPath}\n')
+                continue
+            else:
+                sys.stdout.write(f'{userCommand[1]}: not found\n')
+                continue
+
+        # Handle executables
+        if len(userCommand) > 1:
+            exe = userCommand[0]
+            result = sp.run([exe,userCommand[1]],capture_output=True,text=True)
+            if result.returncode == 0:
+                #print(result.stdout)
+                os.system(userInput)
+            else:
+                sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
+            #if os.path.isfile(userCommand[0]):
+            #    os.system(userInput)
+            #else:
+            #    sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
         else:
-            sys.stdout.write(f'{userCommand[0]}: command not found\n')
+            sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
 
+                
        
-
-
 if __name__ == "__main__":
     main()
