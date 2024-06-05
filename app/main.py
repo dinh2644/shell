@@ -64,12 +64,22 @@ def main():
             
             # Handle CD
             if userCommand[0] == "cd":
-                if os.path.isdir(userCommand[1]):
-                    os.chdir(userCommand[1])
-                    continue
+                currPath = os.getcwd()
+                desiredPath = userCommand[1]
+
+                if desiredPath == "./":
+                    os.chdir(".")
+                elif desiredPath == "../":
+                    os.chdir("..")
+                elif desiredPath == f'./{desiredPath}':
+                    os.chdir(f'./{desiredPath}')
                 else:
-                    sys.stdout.write(f'{userCommand[1]}: No such file or directory\n')
-                    continue
+                    if os.path.isdir(desiredPath):
+                        os.chdir(desiredPath)
+                        continue
+                    else:
+                        sys.stdout.write(f'{desiredPath}: No such file or directory\n')
+                        continue
 
 
             # Handle executables
