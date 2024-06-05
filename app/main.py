@@ -1,5 +1,6 @@
 import sys
 import os
+from os.path import expanduser
 import subprocess as sp
 
 #import pdb; pdb.set_trace()
@@ -57,9 +58,18 @@ def main():
                     continue
 
             # Handle PWD
-            if userCommand[0] == "pwd" and len(userCommand) == 1:
+            if userCommand[0] == "pwd":
                 sys.stdout.write(f'{os.getcwd()}\n')
                 continue
+            
+            # Handle CD
+            if userCommand[0] == "cd":
+                if os.path.isdir(userCommand[1]):
+                    os.chdir(userCommand[1])
+                    continue
+                else:
+                    sys.stdout.write(f'{userCommand[1]}: No such file or directory\n')
+                    continue
 
 
             # Handle executables
