@@ -58,21 +58,32 @@ def main():
                     continue
 
             # Handle PWD
-            if userCommand[0] == "pwd":
+            if userCommand[0] == "pwd" and len(userCommand) == 1:
                 sys.stdout.write(f'{os.getcwd()}\n')
                 continue
             
             # Handle CD
-            if userCommand[0] == "cd":
-                currPath = os.getcwd()
+            if userCommand[0] == "cd" and len(userCommand) == 2:
+                
                 desiredPath = userCommand[1]
-
-                if desiredPath == "./":
+                
+                if desiredPath == "~":
+                    homePath = desiredPath.replace("~",expanduser("~"))
+                    if os.path.isdir(homePath):
+                        os.chdir(homePath)
+                        continue
+                    else:
+                        sys.stdout.write(f'{desiredPath}: No such file or directory\n')
+                        continue
+                elif desiredPath == "./":
                     os.chdir(".")
+                    continue
                 elif desiredPath == "../":
                     os.chdir("..")
+                    continue
                 elif desiredPath == f'./{desiredPath}':
                     os.chdir(f'./{desiredPath}')
+                    continue
                 else:
                     if os.path.isdir(desiredPath):
                         os.chdir(desiredPath)
@@ -86,17 +97,12 @@ def main():
             if len(userCommand) > 1:
                 exe = userCommand[0]
                 result = sp.run([exe,userCommand[1]],capture_output=True,text=True)
-                if result.returncode == 0:
-                    #sys.stdout.write(f'{result.stdout}\n')
+                if result.returncode == 0:          
                     os.system(userInput)
                     continue
                 else:
                     sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
                     continue
-                #if os.path.isfile(userCommand[0]):
-                #    os.system(userInput)
-                #else:
-                #    sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
             else:
                 sys.stdout.write(f'{" ".join(userCommand)}: command not found\n')
                 continue
