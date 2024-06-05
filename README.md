@@ -1,32 +1,29 @@
-[![progress-banner](https://backend.codecrafters.io/progress/shell/1bc6eaf2-bc52-4872-a9ff-f70b00bd5efd)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+A simple POSIX-compliant shell. A shell is a CLI that executes commands and manages processes.
 
-This is a starting point for Python solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+## Features
 
-_Add a description of your course here_
+- **Command Parsing**: Learn how to parse and interpret shell commands.
+- **REPL**: Read-Eval-Print Loop (REPL) to handle user input.
+- **Builtin Commands**: like `cd`, `pwd`, `echo`, etc.
+- **External Programs**: Execute external programs from within shell.
+- **Process Management**: Manage processes initiated by shell.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Getting Started
 
-# Passing the first stage
+1. **Clone the Repository**:
+    ```sh
+    git clone https://github.com/dinh2644/shell.git
+    cd shell
+    ```
 
-The entry point for your `shell` implementation is in `app/main.py`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+2. **Run the Shell in /app**:
+    ```sh
+    python main.py
+    ```
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
+3. **Start Executing Commands**: 
+    - Try built-in commands like `cd`, `pwd`, `echo`.
+    - Run external programs by typing their names.
 
-Time to move on to the next stage!
-
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `python (3.11)` installed locally
-1. Run `./your_shell.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+## Project Structure
+- `main.py`: The main file where the shell implementation resides.
